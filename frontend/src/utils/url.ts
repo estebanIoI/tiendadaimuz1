@@ -5,7 +5,8 @@ import { API_URL } from '@/constants';
  */
 export function ensureAbsoluteUrl(url: string | undefined): string {
   if (!url) return '';
-  if (url.startsWith('http://') || url.startsWith('https://')) {
+  // Si ya es una URL absoluta o un data URL (base64), devolverla tal cual
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
     return url;
   }
   // URL relativa: agregar base

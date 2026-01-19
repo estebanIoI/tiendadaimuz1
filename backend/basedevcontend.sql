@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Producto (
     descripcion TEXT,
     precioAnterior INT,
     precio INT NOT NULL,
-    imagen VARCHAR(500),
+    imagen LONGTEXT,
     stock INT NOT NULL,
     categoria VARCHAR(255),
     esRopa BOOLEAN DEFAULT FALSE,
@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS Producto (
     colores TEXT
 );
 
--- Tabla de imágenes de productos
+-- Tabla de imágenes de productos (LONGTEXT para soportar base64)
 CREATE TABLE IF NOT EXISTS ImagenProducto (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    url VARCHAR(500) NOT NULL,
+    url LONGTEXT NOT NULL,
     productoId INT NOT NULL,
     principal BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (productoId) REFERENCES Producto(id) ON DELETE CASCADE
@@ -54,10 +54,10 @@ CREATE TABLE IF NOT EXISTS PedidoProducto (
     FOREIGN KEY (productoId) REFERENCES Producto(id) ON DELETE CASCADE
 );
 
--- Tabla de banners para el hero de la tienda
+-- Tabla de banners para el hero de la tienda (LONGTEXT para soportar base64)
 CREATE TABLE IF NOT EXISTS Banner (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    imagen VARCHAR(500) NOT NULL,
+    imagen LONGTEXT NOT NULL,
     titulo VARCHAR(255),
     subtitulo VARCHAR(255),
     textoBoton VARCHAR(100) DEFAULT 'SHOP NOW',

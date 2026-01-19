@@ -1,30 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
-const uploadDir = path.join(__dirname, '..', '..', 'public', 'uploads');
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const timestamp = Date.now();
-    const safe = file.originalname.replace(/[^a-zA-Z0-9.\-]/g, '_');
-    cb(null, `${timestamp}_${safe}`);
+// Usar memoria en lugar de disco para convertir a base64
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB máximo por imagen
   }
 });
-
-const upload = multer({ storage });
 
 router.post('/', upload.any(), async (req, res) => {
   try {
     const files = req.files || [];
-    const urls = files.map(f => `/uploads/${f.filename || path.basename(f.path)}`);
-    res.json({ urls, files });
+    const urls = files.map(f => {
+      // Convertir buffer a base64 data URL
+      const base64 = f.buffer.toString('base64');
+      const mimeType = f.mimetype || 'image/png';
+      return `data:${mimeType};base64,${base64}`;
+    });
+    res.json({ urls, files: files.map(f => ({ originalname: f.originalname, size: f.size })) });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error subiendo archivos' });
