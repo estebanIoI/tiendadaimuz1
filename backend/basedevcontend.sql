@@ -88,3 +88,9 @@ ON DUPLICATE KEY UPDATE valor = VALUES(valor);
 -- Insertar configuración por defecto para el descuento spam
 INSERT INTO Config (clave, valor) VALUES ('descuento_spam', '10')
 ON DUPLICATE KEY UPDATE valor = VALUES(valor);
+
+
+-- para ocean
+ALTER TABLE Producto MODIFY COLUMN imagen LONGTEXT;
+ALTER TABLE ImagenProducto MODIFY COLUMN url LONGTEXT NOT NULL;
+ALTER TABLE Banner MODIFY COLUMN imagen LONGTEXT NOT NULL;
