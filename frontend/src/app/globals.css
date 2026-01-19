@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Ensure form controls use the foreground color and full opacity
+   so typed text is visible in both light and dark modes. */
+/* Ensure form controls use readable colors and full opacity so text is
+   visible in both light and dark modes. Avoid using `opacity` on inputs
+   because it affects text, borders and the caret. */
+input,
+textarea,
+select {
+  color: #0f172a; /* default dark-gray text for inputs */
+  background-color: #ffffff; /* avoid transparent inputs on white backgrounds */
+  opacity: 1; /* DO NOT reduce opacity on inputs */
+  caret-color: #0f172a;
+  -webkit-text-fill-color: #0f172a;
+  border-radius: 0;
+}
+
+/* Recommended readable placeholder color and ensure full opacity */
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af; /* gris visible */
+  opacity: 1; /* MUY IMPORTANTE */
+}
+
+/* Inputs en modo oscuro - solo para áreas de admin */
+@media (prefers-color-scheme: dark) {
+  .dark-inputs input,
+  .dark-inputs textarea,
+  .dark-inputs select {
+    color: #ffffff;
+    background-color: #071021;
+    caret-color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+  }
+
+  .dark-inputs input::placeholder,
+  .dark-inputs textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+  }
+}
+
+/* Forzar inputs claros en formularios de checkout/tienda */
+.light-form input,
+.light-form textarea,
+.light-form select {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  caret-color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.light-form input::placeholder,
+.light-form textarea::placeholder {
+  color: #9ca3af !important;
+  -webkit-text-fill-color: #9ca3af !important;
+}
+
+.light-form select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+/* Stronger selectors to override frameworks or utility classes that
+   accidentally reduce input visibility. Keep these specific and minimal. */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  color: inherit;
+  opacity: 1 !important;
+  caret-color: inherit;
+  -webkit-text-fill-color: inherit !important;
+  text-shadow: none !important;
+}
+
+/* Optional: a recommended 'pro' input style for admin/login forms */
+.input-pro {
+  width: 100%;
+  padding: 10px 4px;
+  border: none;
+  border-bottom: 1px solid #cbd5e1;
+  background-color: #fff;
+  color: #0f172a;
+  font-size: 16px;
+}
+
+.input-pro::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.input-pro:focus {
+  outline: none;
+  border-bottom-color: #0f172a;
+}
